@@ -1,0 +1,34 @@
+services:
+  app:
+    build: . # 同级目录下Dockerfile
+    image: php   # 镜像名称 不指定则为app
+#    image: fangsinan/php82-swoole # 使用自定义的PHP镜像
+    container_name: php  # 运行时容器名称
+    ports:
+      - "9000:9000"
+      - "8000:8000"
+    volumes:
+      - $(pwd)/www/:/www
+    networks:
+      - dev-net
+  nginx:
+    image: nginx  # 镜像名称 不指定则为web
+    container_name: docker_test_nginx  # 运行时容器名称
+    ports:
+    - "80:80"
+    volumes:
+    - $(pwd)/nginx:/etc/nginx/conf.d
+    - $(pwd)/www:/www
+    depends_on:
+      - app
+    networks:
+      - dev-net
+
+#  网络
+networks:
+  # 创建 网络不存在
+  dev-net:
+    external: false # false表示创建一个新的网络
+    driver: bridge  # 使用桥接网络
+    name: dev-net  # 自定义网络名称
+
