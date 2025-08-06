@@ -7,6 +7,8 @@
 ## 使用官方PHP镜像作为基础镜像
 FROM php:8.2-fpm
 
+# production ini 配置文件  按需存储
+# RUN mv "$PHP_INI_DIR/php.ini-production" "$PHP_INI_DIR/php.ini"
 
 # 使用镜像源 阿里云  根据网络环境配置
 RUN echo "deb http://mirrors.aliyun.com/debian bookworm main" > /etc/apt/sources.list
